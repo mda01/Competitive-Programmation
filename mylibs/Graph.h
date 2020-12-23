@@ -50,6 +50,10 @@ public:
     [[maybe_unused]] explicit Graph(bool directed, ll nb_nodes) : directed(directed), nb_nodes(nb_nodes),
                                                                   children(vector<Node>(nb_nodes, Node())) {}
 
+    ll size() {
+        return nb_nodes;
+    }
+
     /**
      * Enlarge the graph
      */
