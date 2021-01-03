@@ -1,5 +1,5 @@
-#ifndef ALGO_GRAPH_H
-#define ALGO_GRAPH_H
+#ifndef ALGO_GRAPH_MULTIPLE_COST_CHILDREN_H
+#define ALGO_GRAPH_MULTIPLE_COST_CHILDREN_H
 
 #include <iostream>
 #include <vector>
@@ -13,7 +13,7 @@ using namespace std;
 #define INF ll(1ull<<60u)
 using Node = unordered_map<ll, multiset<ll>>;
 
-class [[maybe_unused]] Graph {
+class [[maybe_unused]] Graph_parent {
 private:
     bool directed;
     ll nb_nodes;
@@ -33,24 +33,25 @@ public:
      * Creates an undirected graph with nb_nodes nodes
      * @param nb_nodes the number of nodes
      */
-    [[maybe_unused]] explicit Graph(ll nb_nodes) : directed(false), nb_nodes(nb_nodes),
-                                                   children(vector<Node>(nb_nodes)) {}
+    [[maybe_unused]] explicit Graph_parent(ll nb_nodes) : directed(false), nb_nodes(nb_nodes),
+                                                          children(vector<Node>(nb_nodes)) {}
 
     /**
      * Creates an empty graph
      * @param directed specifies if the graph is directed
      */
-    [[maybe_unused]] explicit Graph(bool directed) : directed(directed), nb_nodes(0), children(vector<Node>(0)) {}
+    [[maybe_unused]] explicit Graph_parent(bool directed) : directed(directed), nb_nodes(0),
+                                                            children(vector<Node>(0)) {}
 
     /**
      * Creates a graph
      * @param directed specifies if the graph is directed
      * @param nb_nodes the number of nodes
      */
-    [[maybe_unused]] explicit Graph(bool directed, ll nb_nodes) : directed(directed), nb_nodes(nb_nodes),
-                                                                  children(vector<Node>(nb_nodes, Node())) {}
+    [[maybe_unused]] explicit Graph_parent(bool directed, ll nb_nodes) : directed(directed), nb_nodes(nb_nodes),
+                                                                         children(vector<Node>(nb_nodes, Node())) {}
 
-    ll size() const {
+    [[nodiscard]] ll size() const {
         return nb_nodes;
     }
 
@@ -269,6 +270,7 @@ public:
             changed = false;
             for (auto &arc: arcs) {
                 tie(a, b, w) = arc;
+                if (distances[a] == INF) continue;
                 ll new_dist = distances[a] + w;
                 if (new_dist < distances[b]) {
                     distances[b] = new_dist;
@@ -456,4 +458,4 @@ private:
 };
 
 
-#endif //ALGO_GRAPH_H
+#endif //ALGO_GRAPH_MULTIPLE_COST_CHILDREN_H
