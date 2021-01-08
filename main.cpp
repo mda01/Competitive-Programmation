@@ -126,21 +126,6 @@ vector<pair<int, int>> hex_neigh(int x) {
     return res;
 }
 
-ll exp(const ll &a, const ll &n, const ll &mod) {
-    if (n == 0) return 1;
-    ll y = exp(a, n / 2, mod);
-    y = (y * y) % mod;
-    if (n & 1) {
-        y = (a * y) % mod;
-    }
-    return y;
-}
-
-ll exp(const ll &a, const ll &b, const ll &c, const ll &mod) {
-    return exp(a, exp(b, c, mod - 1), mod);
-}
-
-
 int main() {
     ios_base::sync_with_stdio(false);
     cin.tie(nullptr);
