@@ -1,3 +1,5 @@
+// CSES problems solved: 85
+
 #include <iostream>
 #include <algorithm>
 #include <utility>
@@ -36,6 +38,7 @@ const ull MOD = ull(1e9 + 7);
 
 template<class T>
 void print_collection(T collection) {
+    print(typeid(T).name());
     print("{");
     auto colit = collection.begin();
     for (uint iterator = 0; iterator < collection.size() - 1; iterator++) {
