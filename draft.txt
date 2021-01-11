@@ -1,3 +1,36 @@
+collecting numbers II
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(nullptr);
+    auto start = std::chrono::high_resolution_clock::now();
+    ll n, m, tmp1, tmp2;
+    cin >> n >> m;
+    vector<ll> nums(n);
+    bitset<200001> bs;
+    ll cnt;
+    for (ll i = 0; i < n; i++) {
+        cin >> nums[i];
+    }
+    for (ll i = 0; i < m; i++) {
+        cnt = 0;
+        bs = 0;
+        cin >> tmp1 >> tmp2, tmp1--, tmp2--;
+        swap(nums[tmp1], nums[tmp2]);
+        for(ll x: nums) {
+            if (!bs[x - 1])
+                cnt++;
+            bs[x] = 1;
+        }
+        println(cnt);
+    }
+    elapsed_time(start);
+    return 0;
+}
+
+// TODO refaire sliding median --'
+
+
 Sliding Cost
 
 #include <iostream>
