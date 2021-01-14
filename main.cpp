@@ -1,4 +1,4 @@
-// CSES problems solved: 86
+// CSES problems solved: 87
 
 #include <iostream>
 #include <algorithm>
