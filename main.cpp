@@ -1,4 +1,4 @@
-// CSES problems solved: 87
+// CSES problems solved: 89
 
 #include <iostream>
 #include <algorithm>
@@ -21,9 +21,9 @@
 #include <unordered_map>
 #include <stack>
 
-
 using ll = long long;
 using ull = unsigned long long;
+using pll = std::pair<ll, ll>;
 using namespace std;
 const ull MOD = ull(1e9 + 7);
 #define endl '\n'
