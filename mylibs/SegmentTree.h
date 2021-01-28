@@ -6,72 +6,77 @@
 #include <cmath>
 #include <vector>
 
+using ll = long long;
+
 class SegmentTree {
 
     struct node {
-        int sum = 0;
-        int min = std::numeric_limits<int>::max();
-        int from = 0;
-        int to = -1;
+        ll sum = 0;
+        ll min = std::numeric_limits<ll>::max();
+        ll max = std::numeric_limits<ll>::min();
+        ll from = 0;
+        ll to = -1;
         bool pending = false;
-        int pending_val;
+        ll pending_val;
 
-        int size() const {
+        [[nodiscard]] ll size() const {
             return to - from + 1;
         }
     };
 
     std::vector<node> heap;
-    std::vector<int> array;
-    int heap_size;
-    int array_size;
+    std::vector<ll> array;
+    ll heap_size;
+    ll array_size;
 
-    inline int left(int p) { return p << 1; }
+    static inline ll left(ll p) { return p << 1; }
 
-    inline int right(int p) { return (p << 1) + 1; }
+    static inline ll right(ll p) { return (p << 1) + 1; }
 
-    inline bool contains(int from1, int to1, int from2, int to2) {
+    static inline bool contains(ll from1, ll to1, ll from2, ll to2) {
         return from1 <= from2 && to2 <= to1;
     }
 
-    inline bool intersects(int from1, int to1, int from2, int to2) {
+    static inline bool intersects(ll from1, ll to1, ll from2, ll to2) {
         return (from1 <= from2 && to1 >= from2) ||
                (from1 >= from2 && from1 <= to2);
     }
 
 public:
-    SegmentTree(const std::vector<int> &array) {
+    explicit SegmentTree(const std::vector<ll> &array) {
         this->array = array;
         array_size = array.size();
-        heap_size = 2 * (1 << ((int) log2(array.size()) + 1));
+        heap_size = 2 * (1 << ((ll) log2(array.size()) + 1));
         heap.resize(heap_size);
         build(1, 0, array_size - 1);
     }
 
 private:
-    void build(int heap_index, int from, int to) {
+    void build(ll heap_index, ll from, ll to) {
         node &n = heap[heap_index];
         n.from = from;
         n.to = to;
         if (from == to) {
             n.sum = array[from];
             n.min = array[from];
+            n.max = array[from];
         } else {
-            int middle = from + (to - from) / 2;
+            ll middle = from + (to - from) / 2;
             build(left(heap_index), from, middle);
             build(right(heap_index), middle + 1, to);
             n.sum = heap[left(heap_index)].sum + heap[right(heap_index)].sum;
             n.min = std::min(heap[left(heap_index)].min, heap[right(heap_index)].min);
+            n.max = std::max(heap[left(heap_index)].max, heap[right(heap_index)].max);
         }
     }
 
 public:
-    int get_sum(int from, int to) {
+    ll get_sum(ll from, ll to) {
         return get_sum(1, from, to);
     }
 
 private:
-    int get_sum(int heap_index, int from, int to) {
+    ll get_sum(ll heap_index, ll from, ll to) {
         node &n = heap[heap_index];
         if (n.pending && contains(n.from, n.to, from, to))
             return (to - from + 1) * n.pending_val;
@@ -87,12 +92,15 @@ private:
     }
 
 public:
-    int get_min(int from, int to) {
+    ll get_min(ll from, ll to) {
         return get_min(1, from, to);
+    }
+    ll get_max(ll from, ll to) {
+        return get_max(1, from, to);
     }
 
 private:
-    int get_min(int heap_index, int from, int to) {
+    ll get_min(ll heap_index, ll from, ll to) {
         node &n = heap[heap_index];
         if (n.pending && contains(n.from, n.to, from, to))
             return n.pending_val;
@@ -104,16 +112,30 @@ private:
             propagate(heap_index);
             return std::min(get_min(left(heap_index), from, to), get_min(right(heap_index), from, to));
         }
-        return std::numeric_limits<int>::max();
+        return std::numeric_limits<ll>::max();
+    }
+    ll get_max(ll heap_index, ll from, ll to) {
+        node &n = heap[heap_index];
+        if (n.pending && contains(n.from, n.to, from, to))
+            return n.pending_val;
+
+        if (contains(from, to, n.from, n.to))
+            return n.max;
+
+        if (intersects(from, to, n.from, n.to)) {
+            propagate(heap_index);
+            return std::max(get_max(left(heap_index), from, to), get_max(right(heap_index), from, to));
+        }
+        return std::numeric_limits<ll>::min();
     }
 
 public:
-    void update(int from, int to, int value) {
+    void update(ll from, ll to, ll value) {
         update(1, from, to, value);
     }
 
 private:
-    void update(int heap_index, int from, int to, int value) {
+    void update(ll heap_index, ll from, ll to, ll value) {
         node &n = heap[heap_index];
         if (contains(from, to, n.from, n.to)) {
             change(n, value);
@@ -123,10 +145,11 @@ private:
             update(right(heap_index), from, to, value);
             n.sum = heap[left(heap_index)].sum + heap[right(heap_index)].sum;
             n.min = std::min(heap[left(heap_index)].min, heap[right(heap_index)].min);
+            n.max = std::max(heap[left(heap_index)].max, heap[right(heap_index)].max);
         }
     }
 
-    void propagate(int heap_index) {
+    void propagate(ll heap_index) {
         node &n = heap[heap_index];
         if (n.pending) {
             if (n.size() != 1) {
@@ -137,11 +160,12 @@ private:
         }
     }
 
-    void change(node &n, int value) {
+    void change(node &n, ll value) {
         n.pending = true;
         n.pending_val = value;
         n.sum = n.size() * value;
         n.min = value;
+        n.max = value;
         array[n.from] = value;
     }
 };
