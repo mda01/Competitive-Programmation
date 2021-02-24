@@ -95,6 +95,7 @@ public:
     ll get_min(ll from, ll to) {
         return get_min(1, from, to);
     }
+
     ll get_max(ll from, ll to) {
         return get_max(1, from, to);
     }
