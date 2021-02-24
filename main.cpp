@@ -133,27 +133,7 @@ vector<pair<int, int>> hex_neigh(int x) {
 int main() {
     ios_base::sync_with_stdio(false);
     cin.tie(nullptr);
-    //auto start = std::chrono::high_resolution_clock::now();
-    ll n, m, tmp1, tmp2;
-    cin >> n;
-    vector<ll> nums(n);
-    for (ll i = 0; i < n; i++) {
-        cin >> nums[i];
-    }
-    sort(nums.begin(), nums.end());
-    if (!*nums.begin()) {
-        println(1);
-        return 0;
-    }
-    ull sum = 0;
-    for (ll num: nums) {
-        if (num > sum + 1) {
-            println(sum + 1);
-            return 0;
-        }
-        sum += num;
-    }
-    println(sum + 1);
-    //elapsed_time(start);
+    auto start = std::chrono::high_resolution_clock::now();
+    elapsed_time(start);
     return 0;
 }
