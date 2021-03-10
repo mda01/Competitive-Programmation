@@ -34,7 +34,7 @@ const ull MOD = ull(1e9 + 7);
 #define println(text) (cout << (text) << endl)
 #define lowercase(string) for(auto&c: string)c = c >= 'A' && c <= 'Z' ? c - 'A' + 'a' : c;
 #define uppercase(string) for(auto&c: string)c = c >= 'a' && c <= 'z' ? c - 'a' + 'A' : c;
-#define elapsed_time(start) cerr << "time: " << std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::high_resolution_clock::now()-start).count() << " us" << endl
+#define elapsed_time(start) clog << "time: " << std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::high_resolution_clock::now()-start).count() << " us" << endl
 #define numeric_elapsed_time(start) ull(std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::high_resolution_clock::now()-start).count())
 
 template<class T>
