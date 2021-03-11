@@ -1,5 +1,5 @@
 // CSES problems solved: 90
-// Kattis score: 23.4 x)
+// Kattis score: 34.3
 
 #include <iostream>
 #include <algorithm>
